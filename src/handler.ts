@@ -283,7 +283,10 @@ export class LoadBalancer extends DurableObject {
 
 		let body = await this.transformRequest(req);
 		const extra = req.extra_body?.google;
-
+		//将presencePenalty和frequencyPenalty设置为0，防止出现“Penalty is not enabled for models/gemini-2.5-flash”错误
+		body.generationConfig.presencePenalty = 0
+		body.generationConfig.frequencyPenalty = 0
+		
 		if (extra) {
 			if (extra.safety_settings) {
 				body.safetySettings = extra.safety_settings;
